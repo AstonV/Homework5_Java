@@ -1,57 +1,43 @@
 package com.example;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
+import java.util.*;
 public class ShapeTest {
-
     public static void main(String[] args) {
+        Triangle triangle1 = new Triangle("Triangle", 3, 4, 5);
+        Triangle triangle2 = new Triangle("Triangle", 4, 7, 5);
 
-        //Ins array
-        ArrayList<Shape> objList = new ArrayList<>();
+        Circle circle1 = new Circle("Circle", 3);
+        Circle circle2 = new Circle("Circle", 5);
 
-        Shape circle1 = new Circle("Circle", 2);
-        Shape circle2 = new Circle("Circle", 3);
-        Shape hexagon1 = new Hexagon("Hexagon", 4);
-        Shape hexagon2 = new Hexagon("Hexagon", 5);
-        Shape rectangle1 = new Rectangle("Rectangle", 6, 7);
-        Shape rectangle2 = new Rectangle("Rectangle", 8, 9);
-        Shape triangle1 = new Triangle("Triangle", 1, 2, 3);
-        Shape triangle2 = new Triangle("Triangle", 4, 5, 6);
+        Rectangle rectangle1 = new Rectangle("Rectangle", 7, 5);
+        Rectangle rectangle2 = new Rectangle("Rectangle", 10, 3);
+
+        Hexagon hexagon1 = new Hexagon("Hexagon", 5);
+        Hexagon hexagon2 = new Hexagon("Hexagon", 6);
+
+        Shapes<Shape> shapes = new Shapes<Shape>();
+        shapes.add(triangle1);
+        shapes.add(triangle2);
+        shapes.add(circle1);
+        shapes.add(circle2);
+        shapes.add(rectangle1);
+        shapes.add(rectangle2);
+        shapes.add(hexagon1);
+        shapes.add(hexagon2);
 
 
-        // Add, Remove objects
-        objList.add(circle1);
-        objList.add(circle2);
-        objList.add(hexagon1);
-        objList.add(hexagon2);
-        objList.add(rectangle1);
-        objList.add(rectangle2);
-        objList.add(triangle1);
-        objList.add(triangle2);
-        Shapes shapesList = new Shapes(objList);
+        Thread thread = new Thread(shapes);
+        thread.start();
+		
+		try {
+			thread.join();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
 
-        //Ex 1
-        for (int i = 0; i < 16; i++) {
-            new Thread() {
-                public void run() {
-                    {
-                        try {
-                            Thread.sleep(100);
-                            shapesList.compute();
-                        } catch (Exception ex) {
-                            System.out.println(ex);
-                        }
-                    }
-                }
-            }.start();
-
-        }
-        //Ex2
-        System.out.println("Ex2");
-        System.out.println("Max area | " + shapesList.max());
-        System.out.println("Min area | " + shapesList.min());
-        System.out.println("<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3<3");
-
+        System.out.println();
+		System.out.println("Shape with biggest area: " + shapes.max().toString());
+        System.out.println();
+		System.out.println("Shape with smallest area: " + shapes.min().toString());
     }
 }

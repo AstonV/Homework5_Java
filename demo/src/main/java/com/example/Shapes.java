@@ -1,69 +1,76 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.lang.*;
+import java.util.*;
 
-public class Shapes {
+public class Shapes<T extends Shape> extends Thread{
+    // data field
+    private ArrayList<T> shapeList;
 
-    private ArrayList<Shape> shapeList = new ArrayList<Shape>();
-
+    // constructor
     public Shapes() {
-        super();
+        this.shapeList = new ArrayList<>();
     }
-
-    public Shapes(ArrayList<Shape> shapeList) {
+    public Shapes(ArrayList<T> shapeList) {
         this.shapeList = shapeList;
     }
 
-    public ArrayList<Shape> getShapeList() {
+    // getters and setters
+    public ArrayList<T> getShapeList() {
         return shapeList;
     }
 
-    public void setShapeList(ArrayList<Shape> shapeList) {
+    public void setShapeList(ArrayList<T> shapeList) {
         this.shapeList = shapeList;
     }
 
-    public boolean add(Shape shape) {
-        return shapeList.add(shape);
+    // add method
+    public void add(T shape) {
+        this.shapeList.add(shape);
     }
 
-    public boolean remove(Shape shape) {
-        return shapeList.remove(shape);
+    // remove method
+    public void remove(T shape) {
+        this.shapeList.remove(shape);
     }
 
-    public void compute() {
-        synchronized (shapeList) {
-            for (Shape shape : shapeList) {
-                try {
-                    System.out.println("Thread " + Thread.currentThread().getId() +
-                            " | Shape: " + shape.getShapeName() +
-                            ", area: " + shape.computeArea());
-                } catch (NullPointerException e) {
-                    System.out.println(e);
-                }
-            }
+    synchronized public void compute() {
+        for (T shape: shapeList) {
+            Thread thread = new Thread(shape);
+            thread.start();
+            // System.out.println(shape.toString());
         }
     }
 
-//   start ex2
+    public void run() {
+		try {
+			this.compute();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+
+	}
+
+    // max method
     public Shape max() {
-        Comparator<Shape> maxComparator = new Comparator<Shape>() {
-            public int compare(Shape o1, Shape o2) {
-                return Double.compare(o1.computeArea(), o2.computeArea());
+        Shape max = shapeList.get(0);
+        for (int i = 1; i < shapeList.size(); i++) {
+            if (shapeList.get(i).getArea() > max.getArea()) {
+                max = shapeList.get(i);
             }
-        };
-        return Collections.max(shapeList, maxComparator);
+        }
+        return max;
     }
 
+    // min method
     public Shape min() {
-        Comparator<Shape> minComparator = new Comparator<Shape>() {
-            public int compare(Shape o1, Shape o2) {
-                return Double.compare(o1.computeArea(), o2.computeArea());
+        Shape min = shapeList.get(0);
+        for (int i = 1; i < shapeList.size(); i++) {
+            if (shapeList.get(i).getArea() < min.getArea()) {
+                min = shapeList.get(i);
             }
-        };
-        return Collections.min(shapeList, minComparator);
+        }
+        return min;
     }
-//end ex2
 
 }

@@ -1,20 +1,16 @@
 package com.example;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
-public class Hexagon extends Shape {
+public class Hexagon extends Shape{
+    // data field
     private double side;
 
-    public Hexagon() {
-        super();
-    }
-
-    public Hexagon(String shapeName, double side) {
-        super(shapeName);
+    // constructor
+    Hexagon(String type, double side) {
+        super(type);
         this.side = side;
     }
 
+    // getters and setters
     public double getSide() {
         return side;
     }
@@ -23,15 +19,14 @@ public class Hexagon extends Shape {
         this.side = side;
     }
 
+    @Override
     public double computeArea() {
-        NumberFormat formatter = new DecimalFormat("#0.00");
-        return Double.parseDouble(formatter.format(side * side * 3 * Math.sqrt(3) / 2));
+        setArea(3 * Math.sqrt(3) * Math.pow(getSide(), 2) / 2);
+        return getArea();
     }
 
     @Override
     public String toString() {
-        return "Hexagon{" +
-                "side=" + side +
-                '}';
+        return "\n" + super.toString() + "\nSide of the hexagon: " + getSide() + "\nArea of the hexagon: " + computeArea();
     }
 }

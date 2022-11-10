@@ -1,61 +1,51 @@
 package com.example;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+public class Triangle extends Shape{
+    // data field
+    private double side1, side2, side3;
 
-public class Triangle extends Shape {
-    private double sideA;
-    private double sideB;
-    private double sideC;
-
-    public Triangle() {
-        super();
+    // constructor
+    Triangle(String type, double side1, double side2, double side3) {
+        super(type);
+        this.side1 = side1;
+        this.side2 = side2;
+        this.side3 = side3;
     }
 
-    public Triangle(String shapeName, double sideA, double sideB, double sideC) {
-        super(shapeName);
-        this.sideA = sideA;
-        this.sideB = sideB;
-        this.sideC = sideC;
+    // getters and setters
+    public double getSide1() {
+        return side1;
+    }
+    public void setSide1(double side1) {
+        this.side1 = side1;
     }
 
-    public double getSideA() {
-        return sideA;
+    public double getSide2() {
+        return side2;
     }
 
-    public void setSideA(double sideA) {
-        this.sideA = sideA;
+    public void setSide2(double side2) {
+        this.side2 = side2;
     }
 
-    public double getSideB() {
-        return sideB;
+    public double getSide3() {
+        return side3;
     }
 
-    public void setSideB(double sideB) {
-        this.sideB = sideB;
+    public void setSide3(double side3) {
+        this.side3 = side3;
     }
 
-    public double getSideC() {
-        return sideC;
-    }
-
-    public void setSideC(double sideC) {
-        this.sideC = sideC;
-    }
-
+    // compute area
+    @Override
     public double computeArea() {
-        double halfPerimeter = (sideA + sideB + sideC) / 2;
-        NumberFormat formatter = new DecimalFormat("#0.00");
-        return Double.parseDouble(formatter.format(Math.sqrt(halfPerimeter * (halfPerimeter - sideA)
-                * (halfPerimeter - sideB) * (halfPerimeter - sideC))));
+        double halfPerimeter = (getSide1() + getSide2() + getSide3()) / 2;
+        setArea(Math.sqrt(halfPerimeter * (halfPerimeter - getSide1()) * (halfPerimeter - getSide2()) * (halfPerimeter - getSide3())));
+        return getArea();
     }
 
     @Override
     public String toString() {
-        return "Triangle{" +
-                "sideA=" + sideA +
-                ", sideB=" + sideB +
-                ", sideC=" + sideC +
-                '}';
+        return "\n" + super.toString() + "\nLengths of the triangle are: " + getSide1() + ", " + getSide2() + ", " + getSide3() + "\nArea of the triangle: " + computeArea(); 
     }
 }

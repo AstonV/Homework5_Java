@@ -1,30 +1,44 @@
 package com.example;
 
-public abstract class Shape {
-    private String shapeName;
+import java.lang.*;
 
-    public Shape(){
-        super();
-    }
+public abstract class Shape implements Runnable {
+	// data field
+	private String type;
+	private double area;
 
-    public Shape(String shapeName) {
-        this.shapeName = shapeName;
-    }
+	// constructor
+	public Shape(String type) {
+		this.type = type;
+	}
 
-    public String getShapeName() {
-        return shapeName;
-    }
+	// getters and setters
+	public String getType() {
+		return type;
+	}
 
-    public void setShapeName(String shapeName) {
-        this.shapeName = shapeName;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public abstract double computeArea();
+	public double getArea() {
+		return area;
+	}
 
-    @Override
-    public String toString() {
-        return "Shape{" +
-                "shapeName='" + shapeName + '\'' +
-                '}';
-    }
+	public void setArea(double area) {
+		this.area = area;
+	}
+
+	public double computeArea() {
+		return getArea();
+	}
+
+	public void run() {
+		System.out.println(getType() + "\nArea: " + computeArea() + "\n");
+	}
+
+	@Override
+	public String toString(){
+		return getType();
+	}
 }
